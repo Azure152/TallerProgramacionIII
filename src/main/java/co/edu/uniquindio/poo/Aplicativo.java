@@ -3,6 +3,7 @@ package co.edu.uniquindio.poo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 import co.edu.uniquindio.poo.asignaturas.Asignatura;
 import co.edu.uniquindio.poo.usuarios.Estudiante;
@@ -142,5 +143,33 @@ public class Aplicativo
         return this.asignaturas.stream().filter((a) -> {
             return a.hallarEstudiante(identificacion).isPresent();
         }).toList();
+    }
+
+    /**
+     * calcula el promedio de las asignaturas de un estudiante
+     * 
+     * @param identificacion numero de identificacion
+     * 
+     * @return promedio
+     */
+    public OptionalDouble calcularPromedioGlobalEstudiante(String identificacion)
+    {
+        return this.asignaturas.stream().filter((a) -> {
+            return a.hallarEstudiante(identificacion).isPresent();
+        }).map((a) -> {
+            return a.obtenerEstudiante(identificacion).getCalificacion().calcularPromedio();
+        }).mapToDouble((c) -> (double) c).average();
+    }
+
+    /**
+     * compara la clave del aplicativo con una dada
+     * 
+     * @param clave clave a comparar
+     * 
+     * @return boolean que representa si la clave coincide
+     */
+    public boolean comprobarClaveAdministrador(String clave)
+    {
+        return this.claveAdministrador.equals(clave);
     }
 }

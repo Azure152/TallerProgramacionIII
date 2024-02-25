@@ -1,8 +1,10 @@
 package co.edu.uniquindio.poo.asignaturas;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
+import co.edu.uniquindio.poo.usuarios.Docente;
 import co.edu.uniquindio.poo.usuarios.Estudiante;
 
 public class Asignatura
@@ -38,6 +40,11 @@ public class Asignatura
     private Collection<AsignaturaEstudiante> estudiantes;
 
     /**
+     * docente asignado
+     */
+    private Docente docente;
+
+    /**
      * contruye una instancia de asignatura
      * 
      * @param nombre nombre
@@ -56,6 +63,7 @@ public class Asignatura
         this.cupos = cupos;
         this.habilitable = habilitable;
         this.cerrada = false;
+        this.estudiantes = new ArrayList<>();
     }
 
     /**
@@ -281,5 +289,15 @@ public class Asignatura
     public boolean isAbierta()
     {
         return this.cerrada;
+    }
+
+    /**
+     * obtiene al docente asignado
+     * 
+     * @return Optional con el docente asignado si esta presente
+     */
+    public Optional<Docente> getDocente()
+    {
+        return Optional.ofNullable(this.docente);
     }
 }
