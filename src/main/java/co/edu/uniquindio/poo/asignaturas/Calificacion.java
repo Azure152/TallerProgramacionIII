@@ -28,6 +28,8 @@ public class Calificacion
         this.maximoNotas = 4;
         this.notas = new Float[this.maximoNotas];
         this.notaHabilitacion = Optional.empty();
+
+        Arrays.fill(this.notas, 0f);
     }
 
     /**
@@ -47,7 +49,9 @@ public class Calificacion
      */
     private Float sumarNotas()
     {
-        return (float) Arrays.stream(this.notas).mapToDouble(x -> (double) x).sum();
+        return (float) Arrays.stream(this.notas).mapToDouble(x -> {
+            return Double.valueOf(x != null ? x : 0);
+        }).sum();
     }
 
     /**
@@ -72,6 +76,10 @@ public class Calificacion
      */
     public void setNota(int numeroNota, float valor)
     {
+        if (valor < 0f || valor > 5f) {
+            throw new RuntimeException("valor de nota fuera de rango");
+        }
+
         this.notas[numeroNota] = valor;
     }
 
@@ -83,6 +91,14 @@ public class Calificacion
     public void setNotaHabilitacion(float valor)
     {
         this.notaHabilitacion = Optional.of(valor);
+    }
+
+    /**
+     * remueve el valor de la nota de habilitacion
+     */
+    public void limpiarNotaHabilitacion()
+    {
+        this.notaHabilitacion = null;
     }
 
     /**

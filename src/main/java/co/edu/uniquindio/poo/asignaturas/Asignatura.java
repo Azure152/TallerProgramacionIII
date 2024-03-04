@@ -87,7 +87,7 @@ public class Asignatura
         this.validarEstadoApertura();
         this.validarCupos();
 
-        this.addEstudiante(estudiante);
+        this.estudiantes.add(estudiante);
     }
 
     /**
@@ -141,6 +141,16 @@ public class Asignatura
         }
 
         return estudiante.get();
+    }
+
+    /**
+     * remueve un estudiante dada su identificacion
+     * 
+     * @param identificacion numero de identificacion
+     */
+    public void removerEstudiante(String identificacion)
+    {
+        this.estudiantes.remove(this.obtenerEstudiante(identificacion));
     }
 
     /**
@@ -212,6 +222,48 @@ public class Asignatura
     }
 
     /**
+     * establece el nombre de la asignatura
+     * 
+     * @param nombre nuevo nombre
+     */
+    public void setNombre(String nombre)
+    {
+        this.nombre = nombre;
+    }
+
+    /**
+     * establece el codigo de la asignatura
+     * 
+     * @param codigo nuevo codigo
+     */
+    public void setCodigo(String codigo)
+    {
+        this.codigo = codigo;
+    }
+
+    /**
+     * establece la capacidad maxima de estudiantes de la asignatura
+     * 
+     * @param capacidad nueva capacidad maxima
+     */
+    public void setCupos(int capacidad)
+    {
+        this.cupos = capacidad;
+    }
+
+    /**
+     * establece el docente de la asignatura
+     * 
+     * @param docente
+     */
+    public void setDocente(Docente docente)
+    {
+        this.validarEstadoApertura();
+
+        this.docente = docente;
+    }
+
+    /**
      * calcular la cantidad de cupos que no han sido ocupados
      * 
      * @return numero de cupos libres
@@ -229,6 +281,14 @@ public class Asignatura
     public int calcularCuposUsados()
     {
         return this.estudiantes.size();
+    }
+
+    /**
+     * cierra la asignatura
+     */
+    public void cerrar()
+    {
+        this.cerrada = true;
     }
 
     /**
@@ -288,7 +348,17 @@ public class Asignatura
      */
     public boolean isAbierta()
     {
-        return this.cerrada;
+        return ! this.cerrada;
+    }
+
+    /**
+     * obtiene los estudiantes de una asignatura
+     * 
+     * @return estudiantes
+     */
+    public Collection<AsignaturaEstudiante> getEstudiantes()
+    {
+        return this.estudiantes;
     }
 
     /**

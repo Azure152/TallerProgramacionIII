@@ -1,6 +1,9 @@
 package co.edu.uniquindio.poo.usuarios;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import javax.swing.text.DateFormatter;
 
 public class Estudiante extends Usuario
 {
@@ -25,6 +28,29 @@ public class Estudiante extends Usuario
     ) {
         super(identificacion, nombre, apellido);
         this.nacimiento = fechaNacimiento;
+    }
+
+    /**
+     * establece la fecha de naciemiento usando un string
+     * 
+     * @param fecha string de la nueva fecha
+     */
+    public void setFechaNacimiento(String fecha)
+    {
+        this.setFechaNacimiento(LocalDate.parse(
+            fecha,
+            DateTimeFormatter.ofPattern("yyyy-LL-dd")
+        ));
+    }
+
+    /**
+     * establece la fecha de nacimiento
+     * 
+     * @param fecha nueva fecha
+     */
+    public void setFechaNacimiento(LocalDate fecha)
+    {
+        this.nacimiento = fecha;
     }
 
     /**

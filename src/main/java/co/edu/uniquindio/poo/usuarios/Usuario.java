@@ -32,6 +32,26 @@ public abstract class Usuario
     }
 
     /**
+     * establece el/los nombre(s)
+     * 
+     * @param nombre
+     */
+    public void setNombre(String nombre)
+    {
+        this.nombre = nombre;
+    }
+
+    /**
+     * establece el/los apellido(s)
+     * 
+     * @param nombre
+     */
+    public void setApellido(String apellido)
+    {
+        this.apellido = apellido;
+    }
+
+    /**
      * obtiene los nombres y apellidos
      * 
      * @return nombre(s) y apellido(s)
