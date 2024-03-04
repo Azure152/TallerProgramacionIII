@@ -3,8 +3,6 @@ package co.edu.uniquindio.poo.usuarios;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import javax.swing.text.DateFormatter;
-
 public class Estudiante extends Usuario
 {
     /**

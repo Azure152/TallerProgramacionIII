@@ -230,7 +230,16 @@ public class App extends JFrame {
      * cambia el contenido para mostrar las asignaturas al admistrador
      */
     public void asignaturasAdministrador() {
-        this.cambiarContenido(new AsignaturasAdministador(this));
+        this.asignaturasAdministrador("");
+    }
+
+    /**
+     * cambia el contenido para mostrar las asignaturas al admistrador
+     * 
+     * @param busqueda pieza de nombre de las asignaturas (para busqueda)
+     */
+    public void asignaturasAdministrador(String busqueda) {
+        this.cambiarContenido(new AsignaturasAdministador(this, busqueda));
     }
 
     /**
@@ -248,6 +257,15 @@ public class App extends JFrame {
     }
 
     /**
+     * cambia el contenido para mostrar los estudiantes al admistrador
+     * 
+     * @param busqueda pieza de nombre de los estudiantes (para busqueda)
+     */
+    public void estudiantesAdministrador(String busqueda) {
+        this.cambiarContenido(new EstudiantesAdministrador(this, busqueda));
+    }
+
+    /**
      * cambia el contenido al de la vista de detalles de un estudiante
      */
     public void mostrarEstudianteAdministrador(Estudiante est) {
@@ -259,6 +277,15 @@ public class App extends JFrame {
      */
     public void docentesAdministrador() {
         this.cambiarContenido(new DocentesAdministrador(this));
+    }
+
+    /**
+     * cambia el contenido para mostrar los docentes al admistrador
+     * 
+     * @param busqueda pieza de nombre de los docentes (para busqueda)
+     */
+    public void docentesAdministrador(String busqueda) {
+        this.cambiarContenido(new DocentesAdministrador(this, busqueda));
     }
 
     /**

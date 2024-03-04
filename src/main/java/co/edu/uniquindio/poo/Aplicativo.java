@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
-import javax.swing.text.html.Option;
-
 import co.edu.uniquindio.poo.asignaturas.Asignatura;
 import co.edu.uniquindio.poo.usuarios.Docente;
 import co.edu.uniquindio.poo.usuarios.Estudiante;
@@ -105,6 +103,20 @@ public class Aplicativo
     }
 
     /**
+     * obtiene los estudiantes cuyo nombre tenga cierta coincidencia con una cadena
+     * 
+     * @param nombre cadena para filtrar en los nombres
+     * 
+     * @return estudiantes
+     */
+    public Collection<Estudiante> obtenerEstudiantesPorNombre(String nombre)
+    {
+        return this.estudiantes.stream().filter((es) -> {
+            return es.getNombreCompleto().matches(".*" + nombre + ".*");
+        }).toList();
+    }
+
+    /**
      * remueve un estudiante de la lista del aplicativo
      * 
      * @param identificacion numero de identificacion
@@ -154,6 +166,20 @@ public class Aplicativo
     public Optional<Asignatura> hallarAsignatura(String codigo)
     {
         return this.asignaturas.stream().filter(a -> a.getCodigo().equals(codigo)).findAny();
+    }
+
+    /**
+     * obtiene las asignaturas cuyo nombre tenga cierta coincidencia con una cadena
+     * 
+     * @param nombre cadena para filtrar en los nombres
+     * 
+     * @return asignaturas
+     */
+    public Collection<Asignatura> obtenerAsignaturasPorNombre(String nombre)
+    {
+        return this.asignaturas.stream().filter((a) -> {
+            return a.getNombre().matches(".*" + nombre + ".*");
+        }).toList();
     }
 
     /**
@@ -261,6 +287,20 @@ public class Aplicativo
         return this.docentes.stream().filter((d) -> {
             return d.getIdentificacion().equals(identificacion);
         }).findAny();
+    }
+
+    /**
+     * obtiene los asignaturas cuyo nombre tenga cierta coincidencia con una cadena
+     * 
+     * @param nombre cadena para filtrar en los nombres
+     * 
+     * @return docentes
+     */
+    public Collection<Docente> obtenerDocentesPorNombre(String nombre)
+    {
+        return this.docentes.stream().filter((d) -> {
+            return d.getNombreCompleto().matches(".*" + nombre + ".*");
+        }).toList();
     }
 
     /**

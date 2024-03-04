@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
+import java.util.Collection;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,7 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -32,6 +32,9 @@ import co.edu.uniquindio.poo.ui.utilidades.Fuentes;
 
 public class AsignaturasAdministador extends JPanel {
     private App app;
+    private String busqueda;
+    private CampoEntrada campoBusqueda;
+    private Boton botonBusqueda;
     private Boton crearAsignaturaBtn;
     private JDialog crearAsignaturaModal;
     private Boton crearAsignaturaModalBtn;
@@ -39,10 +42,14 @@ public class AsignaturasAdministador extends JPanel {
     private CampoEntrada crearAsignaturaCodigo;
     private CampoEntrada crearAsignaturaCapacidad;
     private JCheckBox crearAsignaturaHabilitable;
-    // private 
 
     public AsignaturasAdministador(App app) {
+        this(app, "");
+    }
+
+    public AsignaturasAdministador(App app, String busqueda) {
         this.app = app;
+        this.busqueda = busqueda;
 
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.setBackground(Colores.FONDO);
@@ -135,14 +142,15 @@ public class AsignaturasAdministador extends JPanel {
         panel.setBackground(Colores.FONDO);
         panel.setLayout(null);
 
-        var campoBusqueda = new CampoEntrada();
+        campoBusqueda = new CampoEntrada();
+        campoBusqueda.setText(this.busqueda);
         campoBusqueda.setTextoMarcador("Busca por nombre de la asignatura");
         campoBusqueda.setSize(400, 40);
         campoBusqueda.setLocation(20, 20);
         campoBusqueda.setFont(Fuentes.PREDETERMINADA);
         campoBusqueda.setBackground(null);
 
-        var botonBusqueda = new Boton();
+        botonBusqueda = new Boton();
         botonBusqueda.setText("Buscar");
         botonBusqueda.setSize(150, 40);
         botonBusqueda.setLocation(430, 20);
@@ -184,7 +192,11 @@ public class AsignaturasAdministador extends JPanel {
         elementos.setLayout(new BoxLayout(elementos, BoxLayout.PAGE_AXIS));
         elementos.setBackground(Colores.FONDO);
 
-        for (Asignatura asg: this.app.aplicativo().asignaturas()) {
+        Collection<Asignatura> asignaturas = this.app
+            .aplicativo()
+            .obtenerAsignaturasPorNombre(this.busqueda);
+
+        for (Asignatura asg: asignaturas) {
             elementos.add(this.crearElementoAsignatura(asg));
         }
 
@@ -257,8 +269,6 @@ public class AsignaturasAdministador extends JPanel {
     }
 
     private void asignarListenersAsignatura(JPanel asig, Asignatura asg) {
-        AsignaturasAdministador self = this;
-
         asig.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -268,14 +278,19 @@ public class AsignaturasAdministador extends JPanel {
     }
 
     public void asignarListeners() {
-        AsignaturasAdministador self = this;
-
         crearAsignaturaBtn.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                self.crearAsignaturaModal();
-            }
+            public void mouseClicked(MouseEvent e) { crearAsignaturaModal(); }
         });
+
+        botonBusqueda.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) { buscarAsignaturas(); }
+        });
+    }
+
+    private void buscarAsignaturas() {
+        app.asignaturasAdministrador(this.campoBusqueda.getText());
     }
 
     public void crearAsignaturaModal() {

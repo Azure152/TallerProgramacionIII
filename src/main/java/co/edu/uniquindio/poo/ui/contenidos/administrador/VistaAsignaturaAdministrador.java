@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Optional;
 
 import javax.swing.Box;
@@ -56,7 +55,7 @@ public class VistaAsignaturaAdministrador extends JPanel {
     private CampoEntrada nota4;
     private CampoEntrada notaHabilitacion;
     private Boton agregarEstudiante;
-    private JComboBox agregarEstudianteCB;
+    private JComboBox<String> agregarEstudianteCB;
     private Boton agregarEstudianteModalBtn;
     private Boton cambiarNotasBtn;
     private Boton removerEstudiante;

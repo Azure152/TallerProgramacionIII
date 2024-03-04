@@ -106,8 +106,7 @@ public class LoginAdministrador extends JPanel {
 
     private void autenticar() {
         String clave = this.campoClave.getText();
-        Boolean resultado = clave.equals("123");
-
+        
         if (this.app.aplicativo().comprobarClaveAdministrador(clave)) {
             this.app.asignaturasAdministrador();
         } else {

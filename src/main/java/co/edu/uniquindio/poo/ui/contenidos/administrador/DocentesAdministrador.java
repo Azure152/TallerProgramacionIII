@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
+import java.util.Collection;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -30,6 +31,9 @@ import co.edu.uniquindio.poo.usuarios.Docente;
 
 public class DocentesAdministrador extends JPanel {
     private App app;
+    private String busqueda;
+    private CampoEntrada campoBusqueda;
+    private Boton botonBusqueda;
     private Boton crearDocente;
     private Boton crearDocenteModalBtn;
     private CampoEntrada crearDocenteIdentificacion;
@@ -38,7 +42,12 @@ public class DocentesAdministrador extends JPanel {
     private JDialog crearDocenteModal;
     
     public DocentesAdministrador(App app) {
+        this(app, "");
+    }
+
+    public DocentesAdministrador(App app, String busqueda) {
         this.app = app;
+        this.busqueda = busqueda;
 
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.setBackground(Colores.FONDO);
@@ -131,14 +140,15 @@ public class DocentesAdministrador extends JPanel {
         panel.setBackground(Colores.FONDO);
         panel.setLayout(null);
 
-        var campoBusqueda = new CampoEntrada();
+        campoBusqueda = new CampoEntrada();
+        campoBusqueda.setText(this.busqueda);
         campoBusqueda.setTextoMarcador("Buscar docente por identificacion");
         campoBusqueda.setSize(400, 40);
         campoBusqueda.setLocation(20, 20);
         campoBusqueda.setFont(Fuentes.PREDETERMINADA);
         campoBusqueda.setBackground(null);
 
-        var botonBusqueda = new Boton();
+        botonBusqueda = new Boton();
         botonBusqueda.setText("Buscar");
         botonBusqueda.setSize(150, 40);
         botonBusqueda.setLocation(430, 20);
@@ -180,11 +190,11 @@ public class DocentesAdministrador extends JPanel {
         elementos.setLayout(new BoxLayout(elementos, BoxLayout.PAGE_AXIS));
         elementos.setBackground(Colores.FONDO);
 
-        // for (int i = 0; i < 5; i++) {
-        //     elementos.add(this.crearElementoDocente());
-        // }
+        Collection<Docente> docentes = this.app
+            .aplicativo()
+            .obtenerDocentesPorNombre(this.busqueda);
 
-        for (Docente docente: this.app.aplicativo().docentes()) {
+        for (Docente docente: docentes) {
             elementos.add(this.crearElementoDocente(docente));
         }
 
@@ -242,8 +252,6 @@ public class DocentesAdministrador extends JPanel {
     }
 
     private void asignarListenersDocente(JPanel doc, Docente docente) {
-        var self = this;
-
         doc.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -260,6 +268,14 @@ public class DocentesAdministrador extends JPanel {
             public void mouseClicked(MouseEvent e) { self.modalCrearDocente(); }
         });
 
+        botonBusqueda.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) { buscarDocentes(); }
+        });
+    }
+
+    private void buscarDocentes() {
+        app.docentesAdministrador(this.campoBusqueda.getText());
     }
 
     private void modalCrearDocente() {

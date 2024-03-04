@@ -9,10 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collection;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,6 +32,9 @@ import co.edu.uniquindio.poo.usuarios.Estudiante;
 
 public class EstudiantesAdministrador extends JPanel {
     private App app;
+    private String busqueda;
+    private CampoEntrada campoBusqueda;
+    private Boton botonBusqueda;
     private Boton crearEstudianteBtn;
     private JDialog modal;
     private Boton crearEstudianteModalBtn;
@@ -42,7 +45,12 @@ public class EstudiantesAdministrador extends JPanel {
     // private CampoEntrada crearEstudianteNombre;
 
     public EstudiantesAdministrador(App app) {
+        this(app, "");
+    }
+
+    public EstudiantesAdministrador(App app, String busqueda) {
         this.app = app;
+        this.busqueda = busqueda;
 
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.setBackground(Colores.FONDO);
@@ -135,14 +143,15 @@ public class EstudiantesAdministrador extends JPanel {
         panel.setBackground(Colores.FONDO);
         panel.setLayout(null);
 
-        var campoBusqueda = new CampoEntrada();
+        campoBusqueda = new CampoEntrada();
+        campoBusqueda.setText(this.busqueda);
         campoBusqueda.setTextoMarcador("Busca estudiante por identificacion");
         campoBusqueda.setSize(400, 40);
         campoBusqueda.setLocation(20, 20);
         campoBusqueda.setFont(Fuentes.PREDETERMINADA);
         campoBusqueda.setBackground(null);
 
-        var botonBusqueda = new Boton();
+        botonBusqueda = new Boton();
         botonBusqueda.setText("Buscar");
         botonBusqueda.setSize(150, 40);
         botonBusqueda.setLocation(430, 20);
@@ -186,7 +195,11 @@ public class EstudiantesAdministrador extends JPanel {
         elementos.setLayout(new BoxLayout(elementos, BoxLayout.PAGE_AXIS));
         elementos.setBackground(Colores.FONDO);
 
-        for (Estudiante est: this.app.aplicativo().estudiantes()) {
+        Collection<Estudiante> estudiantes = this.app
+            .aplicativo()
+            .obtenerEstudiantesPorNombre(this.busqueda);
+
+        for (Estudiante est: estudiantes) {
             elementos.add(this.crearElementoEstudiante(est));
         }
 
@@ -263,6 +276,15 @@ public class EstudiantesAdministrador extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) { crearEstudianteModal(); }
         });
+
+        botonBusqueda.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) { buscarEstudiantes(); }
+        });
+    }
+
+    private void buscarEstudiantes() {
+        app.estudiantesAdministrador(this.campoBusqueda.getText());
     }
 
     public void crearEstudianteModal() {
